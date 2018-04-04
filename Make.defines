@@ -1,9 +1,9 @@
 CC = gcc
 CFLAGS = -I../include -g -O2 -Wall -std=c99
-LIBS = ../libpunp.a -lpthread
+LIBPUNP = libpunp.a
+LIBPUNP_PATH = ../$(LIBPUNP)
+LIBS = $(LIBPUNP_PATH) -lpthread
 RANLIB = ranlib
-
-LIBPUNP_NAME = ../libpunp.a
 
 CLEANFILES = core core.* *.core *.o temp.* *.out typescript* \
 		*.lc *.lh *.bsdi *.sparc *.uw
