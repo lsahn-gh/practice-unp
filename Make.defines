@@ -1,5 +1,5 @@
 CC = gcc
-CFLAGS = -I../include -g -O2 -Wall -ansi
+CFLAGS = -I../include -g -O2 -Wall -std=c99
 LIBS = ../libpunp.a -lpthread
 RANLIB = ranlib
 

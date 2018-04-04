@@ -23,7 +23,7 @@ SOFTWARE. */
 #include "punp.h"
 
 uint32_t 
-Inet_pton(char *addr)
+xinet_pton(char *addr)
 {
     int a, b, c, d;
     unsigned char arr[4];

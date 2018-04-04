@@ -20,12 +20,23 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE. */
 
-#ifndef _practice_unp_error_h_
-#define _practice_unp_error_h_
+#include "punp.h"
 
-#define err_exit(msg)   do { \
-                            fprintf(stderr, msg"\n"); \
-                            exit(-1); \
-                        } while (0)
+void
+error_log(int flag, const char *msg)
+{
+    char buf[MAXERRLOG];
 
-#endif
+    snprintf(buf, MAXERRLOG, msg);
+    if (flag) 
+        snprintf(buf+strlen(buf), MAXERRLOG-strlen(buf), ": %s", strerror(errno));
+    
+    if (strlen(buf) < MAXERRLOG-1)
+        strcat(buf, "\n");
+
+    fflush(stdout);
+    fputs(buf, stderr);
+    fflush(stderr);
+
+    exit(EXIT_FAILURE);
+}

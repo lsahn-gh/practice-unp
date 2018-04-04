@@ -20,34 +20,16 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE. */
 
-#ifndef _practice_unp_h_
-#define _practice_unp_h_
+#ifndef _pratice_unp_error_h_
+#define _pratice_unp_error_h_
 
-/* memnoth-defined file */
 #include "headers.h"
-#include "xerror.h"
-/* end of memnoth-defined */
 
-/* user-defined const */
-#define XBUFSIZE 4096
-#define MAXLINE XBUFSIZE
+#define MAXERRLOG 2048
 
-/* Network */
-#define SERV_PORT   9877
-#define LISTENQ     1024    /* complete connection queue */
+#define err_quit(msg)       error_log(0, msg)
+#define strerr_quit(msg)    error_log(1, msg)
 
-
-uint32_t xinet_pton(char *addr);
-
-int xsocket(int domain, int type, int proto);
-int xconnect(int sockfd, const struct sockaddr *addr, socklen_t addrlen);
-int xbind(int sockfd, const struct sockaddr *addr, socklen_t addrlen);
-int xlisten(int sockfd, int backlog);
-int xaccept(int sockfd, struct sockaddr *addr, socklen_t *addrlen);
-
-/* I/O */
-ssize_t xread(int fd, void *buf, size_t count);
-ssize_t xwrite(int fd, const void *buf, size_t count);
-int xclose(int fd);
+void error_log(int, const char *);
 
 #endif

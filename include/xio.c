@@ -20,34 +20,64 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE. */
 
-#ifndef _practice_unp_h_
-#define _practice_unp_h_
+#include "punp.h"
 
-/* memnoth-defined file */
-#include "headers.h"
-#include "xerror.h"
-/* end of memnoth-defined */
+ssize_t
+xread(int fd, void *buf, size_t count)
+{
+    int ret;
 
-/* user-defined const */
-#define XBUFSIZE 4096
-#define MAXLINE XBUFSIZE
+again:
+    if ( (ret = read(fd, buf, count)) < 0) {
+        switch (errno) {
+        case EINTR:
+            goto again;
+        default:
+            strerr_quit("xread");
+        }
+    }
 
-/* Network */
-#define SERV_PORT   9877
-#define LISTENQ     1024    /* complete connection queue */
+    return ret;
+}
 
+/* xwrite is just a wrapper function.
+ * The functionality is almost same, except error handling.
+ * 
+ * It can handle errors as below,
+ * - EINTR (raised by Signal) */
+ssize_t
+xwrite(int fd, const void *buf, size_t count)
+{
+    int ret;
 
-uint32_t xinet_pton(char *addr);
+again:
+    if ( (ret = write(fd, buf, count)) < 0) {
+    /* It does not handle the case of ret is 0. */
+        switch (errno) {
+        case EINTR:
+            goto again;
+        default:
+            strerr_quit("xwrite");
+        }
+    }
 
-int xsocket(int domain, int type, int proto);
-int xconnect(int sockfd, const struct sockaddr *addr, socklen_t addrlen);
-int xbind(int sockfd, const struct sockaddr *addr, socklen_t addrlen);
-int xlisten(int sockfd, int backlog);
-int xaccept(int sockfd, struct sockaddr *addr, socklen_t *addrlen);
+    return ret;
+}
 
-/* I/O */
-ssize_t xread(int fd, void *buf, size_t count);
-ssize_t xwrite(int fd, const void *buf, size_t count);
-int xclose(int fd);
+int
+xclose(int fd)
+{
+    int ret;
 
-#endif
+again:
+    if ( (ret = close(fd)) != 0) {
+        switch (errno) {
+        case EINTR:
+            goto again;
+        default:
+            strerr_quit("xclose");
+        }
+    }
+
+    return ret;
+}
