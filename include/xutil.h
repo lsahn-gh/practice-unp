@@ -24,12 +24,17 @@
 #ifndef _practice_unp_xutil_h_
 #define _practice_unp_xutil_h_
 
+#include "headers.h"
+
 typedef enum {
     XB_NONE = 0,
     XB_BIG = 1,
     XB_LITTLE = 2,
     XB_UNKNOWN = 3
 } xbyteorder;
+
+#define xfputs(str, fstream) fputs(str, fstream); \
+                             fflush(fstream)
 
 xbyteorder byteorder(void);
 
