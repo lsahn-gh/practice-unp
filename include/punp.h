@@ -26,6 +26,7 @@ SOFTWARE. */
 /* memnoth-defined file */
 #include "headers.h"
 #include "xerror.h"
+#include "xutil.h"
 /* end of memnoth-defined */
 
 /* user-defined const */
@@ -35,7 +36,6 @@ SOFTWARE. */
 /* Network */
 #define SERV_PORT   9877
 #define LISTENQ     1024    /* complete connection queue */
-
 
 uint32_t xinet_pton(char *addr);
 
