@@ -37,11 +37,13 @@
 #define XOPEN_MAX   1024    /* hard coded OPEN_MAX */
 #define INFTIM      -1      /* INFTIM is not a standard, so do this */
 
+typedef unsigned char uchar;
+
 /* Network */
 #define SERV_PORT   9877
 #define LISTENQ     1024    /* complete connection queue */
 
-uint32_t xinet_pton(char *addr);
+void xinet_pton(sa_family_t satype, const char *strptr, void *addrptr);
 
 int xsocket(int domain, int type, int proto);
 int xconnect(int sockfd, const struct sockaddr *addr, socklen_t addrlen);
