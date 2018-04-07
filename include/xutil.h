@@ -33,8 +33,10 @@ typedef enum {
     XB_UNKNOWN = 3
 } xbyteorder;
 
+/* Never use this, but need to examine.
 #define xfputs(str, fstream) fputs(str, fstream); \
                              fflush(fstream)
+*/
 
 xbyteorder byteorder(void);
 

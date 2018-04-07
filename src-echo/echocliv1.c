@@ -18,7 +18,7 @@ main(int argc, char *argv[])
     bzero(&servaddr, sizeof(servaddr));
     servaddr.sin_family = AF_INET;
     servaddr.sin_port = htons(SERV_PORT);
-    servaddr.sin_addr.s_addr = xinet_pton(argv[1]);
+    xinet_pton(AF_INET, argv[1], &servaddr.sin_addr);
 
     xconnect(sockfd, (struct sockaddr *) &servaddr, sizeof(servaddr));
 

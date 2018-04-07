@@ -1,5 +1,5 @@
 CC = gcc
-CFLAGS = -I../include -g -O2 -D_REENTRANT -Wall
+CFLAGS = -I../include -g -D_REENTRANT -Wall
 LIBPUNP = libpunp.a
 LIBPUNP_PATH = ../$(LIBPUNP)
 LIBS = $(LIBPUNP_PATH) -lpthread
