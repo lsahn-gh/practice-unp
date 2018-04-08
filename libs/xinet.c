@@ -26,7 +26,7 @@
 #define MAXLEN4     4
 #define MAXLEN6     /* not defined yet */
 
-static uint32_t _xinet4_addr_parser(const char *addr);
+static uint32_t _xinet4_addr_recognizer(const char *addr);
 
 void 
 xinet_pton(sa_family_t satype, const char *strptr, void *addrptr)
@@ -34,7 +34,7 @@ xinet_pton(sa_family_t satype, const char *strptr, void *addrptr)
     switch (satype) {
     case AF_INET: {
         struct in_addr in_val;
-        in_val.s_addr = _xinet4_addr_parser(strptr);
+        in_val.s_addr = _xinet4_addr_recognizer(strptr);
         memcpy(addrptr, &in_val, sizeof(struct in_addr));
         return;
     }
@@ -46,7 +46,7 @@ xinet_pton(sa_family_t satype, const char *strptr, void *addrptr)
 }
 
 static uint32_t
-_xinet4_addr_parser(const char *addr)
+_xinet4_addr_recognizer(const char *addr)
 {
     uchar i4[4];
     const char *ch = addr;
@@ -55,15 +55,17 @@ _xinet4_addr_parser(const char *addr)
 
     for (count = 0; count < MAXLEN4; ++ch) {
         switch (*ch) {
-        case '.':
-            i4[count++] = num;
-            num = 0;
-            continue;
         case '\0':
             if (count != MAXLEN4-1) /* Is len of addr valid? */
                 goto err;
             i4[count] = num;
             return *((uint32_t *)i4);
+        case '.':
+            i4[count++] = num;
+            num = 0;
+            /* fall through! */
+        case ' ':
+            continue;
         case '0': case '1': case '2': case '3':
         case '4': case '5': case '6': case '7':
         case '8': case '9':
