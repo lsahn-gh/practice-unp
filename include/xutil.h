@@ -33,11 +33,18 @@ typedef enum {
     XB_UNKNOWN = 3
 } xbyteorder;
 
+xbyteorder byteorder(void);
+
 /* Never use this, but need to examine.
 #define xfputs(str, fstream) fputs(str, fstream); \
                              fflush(fstream)
 */
 
-xbyteorder byteorder(void);
+/* lw debug macro */
+#ifdef XDEBUG
+# define    dbugf(fmt, ...)     fprintf(stderr, fmt, ##__VA_ARGS__)
+#else
+# define    dbugf(fmt, ...)
+#endif
 
 #endif
