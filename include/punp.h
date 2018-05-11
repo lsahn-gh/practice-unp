@@ -28,6 +28,7 @@
 #include "headers.h"
 #include "xerror.h"
 #include "xutil.h"
+#include "xtypes.h"
 /* end of memnoth-defined */
 
 /* user-defined const */
@@ -37,24 +38,28 @@
 #define XOPEN_MAX   1024    /* hard coded OPEN_MAX */
 #define INFTIM      -1      /* INFTIM is not a standard, so do this */
 
-typedef unsigned char uchar;
-
 /* Network */
 #define SERV_PORT   9877
 #define LISTENQ     1024    /* complete connection queue */
 
+/* (xinet.c) */
 void xinet_pton(sa_family_t satype, const char *strptr, void *addrptr);
+void xinet_ntop(sa_family_t satype, const struct in_addr *addrptr, char *strptr);
 
+/* (prereq.c) */
 int xsocket(int domain, int type, int proto);
 int xconnect(int sockfd, const struct sockaddr *addr, socklen_t addrlen);
 int xbind(int sockfd, const struct sockaddr *addr, socklen_t addrlen);
 int xlisten(int sockfd, int backlog);
 int xaccept(int sockfd, struct sockaddr *addr, socklen_t *addrlen);
 
-/* I/O */
+/* I/O (xio.c) */
 ssize_t xread(int fd, void *buf, size_t count);
 ssize_t xwrite(int fd, const void *buf, size_t count);
 int xclose(int fd);
 int xpoll(struct pollfd *fds, nfds_t nfds, int timeout);
+
+/* Utils (xutil.c) */
+Sigfunc *xsignal(int signo, Sigfunc *func);
 
 #endif

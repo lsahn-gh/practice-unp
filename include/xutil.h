@@ -19,26 +19,10 @@
  * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN
  * AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
  * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-*/
+ */
 
 #ifndef _practice_unp_xutil_h_
 #define _practice_unp_xutil_h_
-
-#include "headers.h"
-
-typedef enum {
-    XB_NONE = 0,
-    XB_BIG = 1,
-    XB_LITTLE = 2,
-    XB_UNKNOWN = 3
-} xbyteorder;
-
-xbyteorder byteorder(void);
-
-/* Never use this, but need to examine.
-#define xfputs(str, fstream) fputs(str, fstream); \
-                             fflush(fstream)
-*/
 
 /* lw debug macro */
 #ifdef XDEBUG
@@ -46,5 +30,9 @@ xbyteorder byteorder(void);
 #else
 # define    dbugf(fmt, ...)
 #endif
+
+/* min and max macros */
+#define max(a, b) ((a) > (b) ? (a) : (b))
+#define min(a, b) ((a) < (b) ? (a) : (b))
 
 #endif

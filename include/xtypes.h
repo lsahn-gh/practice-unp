@@ -21,14 +21,11 @@
  * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#include "punp.h"
+#ifndef _practice_unp_xtypes_h_
+#define _practice_unp_xtypes_h_
 
-Sigfunc *
-xsignal(int signo, Sigfunc *func)
-{
-    Sigfunc *sigfunc;
+typedef unsigned char   uchar;
 
-    if ( (sigfunc = signal(signo, func)) == SIG_ERR)
-        err_quit("signal error");
-    return sigfunc;
-}
+typedef void            Sigfunc(int);
+
+#endif

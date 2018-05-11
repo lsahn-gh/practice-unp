@@ -27,8 +27,13 @@ SOFTWARE. */
 
 #define MAXERRLOG 2048
 
-#define err_quit(msg)       error_log(0, msg)
-#define strerr_quit(msg)    error_log(1, msg)
+enum _LOG_LEVEL {
+    LOG_ERR = 0,
+    LOG_STRERR
+};
+
+#define err_quit(msg)       error_log(LOG_ERR, msg)
+#define strerr_quit(msg)    error_log(LOG_STRERR, msg)
 
 void error_log(int, const char *);
 

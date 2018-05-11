@@ -28,8 +28,10 @@ error_log(int flag, const char *msg)
     char buf[MAXERRLOG];
 
     snprintf(buf, MAXERRLOG, msg);
-    if (flag) 
+    switch (flag) {
+    case LOG_STRERR:
         snprintf(buf+strlen(buf), MAXERRLOG-strlen(buf), ": %s", strerror(errno));
+    }
     
     if (strlen(buf) < MAXERRLOG-1)
         strcat(buf, "\n");
