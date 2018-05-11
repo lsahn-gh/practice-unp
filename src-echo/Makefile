@@ -1,7 +1,8 @@
 include ../Make.defines
 
 PROGS =	echocliv1 poll-echocliv1 \
-		echoservv1 poll-echoservv1
+		echoservv1 poll-echoservv1 \
+		tcp-fork-echocliv1 tcp-fork-echoserv1
 
 all:	${PROGS}
 
@@ -16,6 +17,12 @@ poll-echocliv1: poll-echocliv1.o
 
 poll-echoservv1: poll-echoservv1.o
 		${CC} ${CFLAGS} -o $@ poll-echoservv1.o ${LIBS}
+
+tcp-fork-echocliv1: tcp-fork-echocliv1.o
+		${CC} ${CFLAGS} -o $@ tcp-fork-echocliv1.o ${LIBS}
+
+tcp-fork-echoserv1: tcp-fork-echoserv1.o
+		${CC} ${CFLAGS} -o $@ tcp-fork-echoserv1.o ${LIBS}
 
 clean:
 		rm -f ${PROGS} ${CLEANFILES}
