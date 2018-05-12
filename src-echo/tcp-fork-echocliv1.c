@@ -32,7 +32,7 @@ main(int argc, char **argv)
     struct sockaddr_in servaddr;
 
     if (argc != 2)
-        strerr_quit("Usage: ./tcp-fork-echocliv1 <IPaddress>");
+        strerr_quit("Usage: %s <ip address>", argv[0]);
 
     sockfd = xsocket(AF_INET, SOCK_STREAM, 0);
 

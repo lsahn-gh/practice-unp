@@ -22,15 +22,46 @@ SOFTWARE. */
 
 #include "xerror.h"
 
+static void _punp_err_log(int lvl, const char *fmt, va_list ap);
+
 void
-error_log(int flag, const char *msg)
+_punp_err_quit(int lvl, const char *fmt, ...)
 {
+    va_list     ap;
+
+    va_start(ap, fmt);
+    _punp_err_log(lvl, fmt, ap);
+    va_end(ap);
+    exit(EXIT_FAILURE);
+}
+
+/* Not sure this is useful */
+void
+_punp_err_print(int lvl, const char *fmt, ...)
+{
+    va_list     ap;
+
+    va_start(ap, fmt);
+    _punp_err_log(lvl, fmt, ap);
+    va_end(ap);
+}
+
+static void
+_punp_err_log(int lvl, const char *fmt, va_list ap)
+{
+    int errno_save, n;
     char buf[MAXERRLOG];
 
-    snprintf(buf, MAXERRLOG, msg);
-    switch (flag) {
+    errno_save = errno;
+#if (defined _ISOC99_SOURCE || (defined _BSD_SOURCE || _XOPEN_SOURCE >= 500))
+    n = vsnprintf(buf, MAXERRLOG, fmt, ap); /* safe */
+#else
+    n = vsprintf(buf, fmt, ap);     /* unsafe */
+#endif
+    assert(n < MAXERRLOG);
+    switch (lvl) {
     case LOG_STRERR:
-        snprintf(buf+strlen(buf), MAXERRLOG-strlen(buf), ": %s", strerror(errno));
+        snprintf(buf + n, MAXERRLOG - n, ": %s", strerror(errno_save));
     }
     
     if (strlen(buf) < MAXERRLOG-1)
@@ -39,6 +70,4 @@ error_log(int flag, const char *msg)
     fflush(stdout);
     fputs(buf, stderr);
     fflush(stderr);
-
-    exit(EXIT_FAILURE);
 }

@@ -12,6 +12,7 @@
 #include	<signal.h>
 #include	<stdio.h>
 #include	<stdlib.h>
+#include    <stdarg.h>
 #include	<string.h>
 #include	<sys/stat.h>	/* for S_xxx file mode constants */
 #include	<sys/uio.h>		/* for iovec{} and readv/writev */

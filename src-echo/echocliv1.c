@@ -11,7 +11,7 @@ main(int argc, char *argv[])
     char str[XBUFSIZE];
 
     if (argc != 2)
-        err_quit("usage: echocliv1 <IPaddress>");
+        err_quit("usage: %s <ip address>", argv[0]);
 
     sockfd = xsocket(AF_INET, SOCK_STREAM, 0);
 

@@ -23,6 +23,8 @@ SOFTWARE. */
 #ifndef _pratice_unp_error_h_
 #define _pratice_unp_error_h_
 
+#include <assert.h>
+
 #include "headers.h"
 
 #define MAXERRLOG 2048
@@ -32,9 +34,11 @@ enum _LOG_LEVEL {
     LOG_STRERR
 };
 
-#define err_quit(msg)       error_log(LOG_ERR, msg)
-#define strerr_quit(msg)    error_log(LOG_STRERR, msg)
+void _punp_err_quit(int lvl, const char *fmt, ...);
 
-void error_log(int, const char *);
+#define err_quit(fmt, ...) \
+    _punp_err_quit(LOG_ERR, fmt, ##__VA_ARGS__)
+#define strerr_quit(fmt, ...) \
+    _punp_err_quit(LOG_STRERR, fmt, ##__VA_ARGS__)
 
 #endif
