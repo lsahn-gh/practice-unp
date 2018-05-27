@@ -48,16 +48,26 @@ void xinet_ntop(sa_family_t satype, const struct in_addr *addrptr, char *strptr)
 
 /* (prereq.c) */
 int xsocket(int domain, int type, int proto);
-int xconnect(int sockfd, const struct sockaddr *addr, socklen_t addrlen);
-int xbind(int sockfd, const struct sockaddr *addr, socklen_t addrlen);
+int xconnect(int sockfd, const xsockaddr *addr, socklen_t addrlen);
+int xbind(int sockfd, const xsockaddr *addr, socklen_t addrlen);
 int xlisten(int sockfd, int backlog);
-int xaccept(int sockfd, struct sockaddr *addr, socklen_t *addrlen);
+int xaccept(int sockfd, xsockaddr *addr, socklen_t *addrlen);
+int x_sctp_bindx(int sockfd, const xsockaddr *addrs, int addrcnt, int flags);
+int x_sctp_connectx(int sockfd, const xsockaddr *addrs, int addrcnt, sctp_assoc_t *id);
 
 /* I/O (xio.c) */
 ssize_t xread(int fd, void *buf, size_t count);
 ssize_t xwrite(int fd, const void *buf, size_t count);
 int xclose(int fd);
 int xpoll(struct pollfd *fds, nfds_t nfds, int timeout);
+ssize_t xsendto(int socket, const void *msg, size_t len,
+                int flags, const xsockaddr *dest_addr, socklen_t dest_len);
+ssize_t xrecvfrom(int socket, void *restrict buffer, size_t len,
+                  int flags, xsockaddr *restrict address, socklen_t *restrict addr_len);
+
+/* STD I/O wrappers (xstdio.c) */
+char *xfgets(char *s, int size, FILE *stream);
+int xfputs(const char *s, FILE *stream);
 
 /* Utils (xutil.c) */
 Sigfunc *xsignal(int signo, Sigfunc *func);

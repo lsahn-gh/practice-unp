@@ -35,7 +35,7 @@ xsocket(int domain, int type, int proto)
 }
 
 int
-xconnect(int sockfd, const struct sockaddr *addr, socklen_t addrlen)
+xconnect(int sockfd, const xsockaddr *addr, socklen_t addrlen)
 {
     int ret;
 
@@ -46,7 +46,7 @@ xconnect(int sockfd, const struct sockaddr *addr, socklen_t addrlen)
 }
 
 int
-xbind(int sockfd, const struct sockaddr *addr, socklen_t addrlen)
+xbind(int sockfd, const xsockaddr *addr, socklen_t addrlen)
 {
     int ret;
 
@@ -68,7 +68,7 @@ xlisten(int sockfd, int backlog)
 }
 
 int
-xaccept(int sockfd, struct sockaddr *addr, socklen_t *addrlen)
+xaccept(int sockfd, xsockaddr *addr, socklen_t *addrlen)
 {
     int ret;
 
@@ -78,6 +78,43 @@ xaccept(int sockfd, struct sockaddr *addr, socklen_t *addrlen)
             continue;
         default:
             strerr_quit("xaccept");
+        }
+    }
+
+    return ret;
+}
+
+int
+x_sctp_bindx(int sockfd, const xsockaddr *addrs,
+             int addrcnt, int flags)
+{
+    int ret;
+
+    if ( (ret = sctp_bindx(sockfd, addrs, addrcnt, flags)) == -1) {
+        switch (errno) {
+        case EINVAL:
+        /* Refer to section 9.3, 'sctp_bindx' Function
+         * at the book, UNIX Network Programming, Vol 1.
+         * 
+         * fall through! */
+        default:
+            strerr_quit("x_sctp_bindx");
+        }
+    }
+
+    return ret;
+}
+
+int
+x_sctp_connectx(int sockfd, const xsockaddr *addrs,
+                int addrcnt, sctp_assoc_t *id)
+{
+    int ret;
+
+    if ( (ret = sctp_connectx(sockfd, addrs, addrcnt, id)) == -1) {
+        switch (errno) {
+        default:
+            strerr_quit("x_sctp_connectx");
         }
     }
 

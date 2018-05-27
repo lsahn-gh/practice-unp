@@ -108,3 +108,41 @@ xpoll(struct pollfd *fds,
 
     return nready;
 }
+
+ssize_t
+xsendto(int socket, const void *msg,
+        size_t len, int flags, const xsockaddr *dest_addr,
+        socklen_t dest_len)
+{
+    ssize_t ret;
+
+    while ( (ret = sendto(socket, msg, len, flags, dest_addr, dest_len)) == -1) {
+        switch (errno) {
+        case EINTR:
+            continue;
+        default:
+            strerr_quit("xsendto");
+        }
+    }
+
+    return ret;
+}
+
+ssize_t
+xrecvfrom(int socket, void *restrict buffer, 
+          size_t len, int flags, xsockaddr *restrict address,
+          socklen_t *restrict addr_len)
+{
+    ssize_t ret;
+
+    while ( (ret = recvfrom(socket, buffer, len, flags, address, addr_len)) == -1) {
+        switch (errno) {
+        case EINTR:
+            continue;
+        default:
+            strerr_quit("xrecvfrom");
+        }
+    }
+
+    return ret;
+}
